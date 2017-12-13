@@ -1,0 +1,58 @@
+{{define "mongo_iter"}}
+{{$obj := .}}
+
+// mongo_iter
+
+type {{.Name}}Iter struct {
+   data []*{{.Name}}
+}
+
+func New{{.Name}}Iter(array []*{{.Name}}) *{{.Name}}Iter {
+    return &{{.Name}}Iter{data:array}
+}
+
+func (iter {{.Name}}Iter) Ref()  *{{.Name}}Iter {
+    return &iter
+}
+
+func (iter *{{.Name}}Iter) Append(array...*{{.Name}}) *{{.Name}}Iter {
+    iter.data = append(iter.data, array...)
+    return iter
+}
+
+func (iter *{{.Name}}Iter) Len() int {
+    return len(iter.Raw())
+}
+
+func (iter *{{.Name}}Iter) Raw() []*{{.Name}} {
+    return iter.data
+}
+
+func (iter *{{.Name}}Iter) Foreach(f func(int, *{{.Name}})) *{{.Name}}Iter {
+    for i, one := range iter.Raw() {
+        f(i, one)
+    }
+    return iter
+}
+
+func (iter *{{.Name}}Iter) Filter(f func(*{{.Name}}) bool) *{{.Name}}Iter {
+    ret := New{{.Name}}Iter(make([]*{{.Name}}, 0 ,iter.Len()))
+    iter.Foreach(func(i int, one *{{.Name}}){
+        if f(one) {
+            ret.Append(one)
+        }
+    })
+    return ret
+} 
+
+func (iter *{{.Name}}Iter) FilterByIndex(f func(int) bool) *{{.Name}}Iter {
+    ret := New{{.Name}}Iter(make([]*{{.Name}}, 0 ,iter.Len()))
+    iter.Foreach(func(i int, one *{{.Name}}){
+        if f(i) {
+            ret.Append(one)
+        }
+    })
+    return ret
+} 
+
+{{end}}

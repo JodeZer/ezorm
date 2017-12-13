@@ -80,5 +80,8 @@ func new{{.Name}}FindByID(id string) (result EzOrmObj, err error) {
 {{ .LoadTpl "mongo_collection" }}
 
 {{ .LoadTpl "mongo_search" }}
+
+{{ .LoadTpl "mongo_iter" }}
+
 {{end}}
 {{end}}

@@ -44,6 +44,7 @@ func init() {
 		"tpl/redis_config.gogo",
 		"tpl/redis_orm.gogo",
 		"tpl/mongo_config.gogo",
+		"tpl/mongo_iter.gogo",
 	}
 	for _, fname := range files {
 		data, err := tpl.Asset(fname)

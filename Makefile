@@ -20,6 +20,13 @@ genmongo:
 	rm example/blog/gen_*.go
 	ezorm gen -i example/blog/blog.yaml -o example/blog -p blog --goPackage test
 
+genlocalexample: localbuild
+	rm example/blog/gen_*.go
+	./bin/ezorm gen -i example/blog/blog.yaml -o example/blog -p blog --goPackage test
+
+localbuild: buildTpl
+	go build -o bin/ezorm main.go
+
 test: genexample testmssql testmongo testmysql
 
 testmssql:
